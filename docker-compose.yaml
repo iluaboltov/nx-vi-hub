@@ -1,0 +1,52 @@
+# DEV
+
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres
+    container_name: db
+    ports:
+      - 5432:5432
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          cpus: "1"
+          memory: 4G
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    container_name: api
+    restart: always
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/postgres
+    ports:
+      - "4308:4308"
+    depends_on:
+      - postgres
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+    container_name: web
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+volumes:
+  pgdata: {}

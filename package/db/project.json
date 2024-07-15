@@ -1,0 +1,58 @@
+{
+  "name": "db",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "packages/db/src",
+  "projectType": "library",
+  "targets": {
+    "prisma": {
+      "command": "prisma",
+      "options": {
+        "cwd": "packages/db"
+      }
+    },
+    "push": {
+      "command": "prisma db push",
+      "options": {
+        "cwd": "packages/db"
+      }
+    },
+    "pull": {
+      "command": "prisma db pull",
+      "options": {
+        "cwd": "packages/db"
+      }
+    },
+    "seed": {
+      "command": "prisma db seed",
+      "options": {
+        "cwd": "packages/db"
+      }
+    },
+    "generate": {
+      "command": "prisma generate",
+      "options": {
+        "cwd": "packages/db"
+      }
+    },
+    "migrate:dev": {
+      "command": "prisma migrate dev",
+      "options": {
+        "cwd": "packages/db"
+      }
+    },
+    "migrate:deploy": {
+      "command": "prisma migrate deploy",
+      "options": {
+        "cwd": "packages/db"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["packages/db/**/*.ts", "packages/db/package.json"]
+      }
+    }
+  },
+  "tags": []
+}
